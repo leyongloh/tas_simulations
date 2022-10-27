@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+
+<launch>
+  <master auto="start"/>
+  <param name="/use_sim_time" value="false"/>
+
+ <!--  run serial connection 
+  <node name="rosserial_python" pkg="rosserial_python" type="serial_node.py" args="/dev/arduino"/>  -->
+
+    <node name="serial_node"        pkg="rosserial_python"      type="serial_node.py">
+    <param name="port"                             value="/dev/arduino"/>
+    <param name="baud"                             value="115200"/>
+    </node>
+
+  
+ <!-- Run laserscanner at the front -->
+  <node name="hokuyo_front" pkg="urg_node" type="urg_node" respawn="false" output="screen">
+    <!-- Starts up faster, but timestamps will be inaccurate. --> 
+    <!-- Set the port to connect to here -->
+    <param name="serial_port" value="/dev/hokuyo_front"/>
+    <param name="frame_id" value="laser"/> 
+    <param name="calibrate_time" value="false"/>
+    <param name="publish_intensity" value="false"/>
+    <param name="angle_min" type="double" value="-1.57"/>
+    <param name="angle_max" type="double" value="1.57"/>
+    <remap from="scan" to="scan_front" />
+  </node>
+
+ <!-- Run laserscanner at the back -->
+   <node name="hokuyo_back" pkg="urg_node" type="urg_node" respawn="false" output="screen">
+    <!-- Starts up faster, but timestamps will be inaccurate. --> 
+    <!-- Set the port to connect to here -->
+    <param name="serial_port" value="/dev/hokuyo_back"/>
+    <param name="frame_id" value="laser_back"/> 
+    <param name="calibrate_time" value="false"/>
+    <param name="publish_intensity" value="false"/>
+    <param name="angle_min" type="double" value="-1.57"/>
+    <param name="angle_max" type="double" value="1.57"/>
+    <remap from="scan" to="scan_back" />
+  </node>
+
+ <!-- Run xsens driver -->
+   <!--node  name="xsens_mti_node" pkg="xsens_mti_driver" type="xsens_mti_node" output="screen">
+    <rosparam command="load" file="$(find xsens_mti_driver)/param/xsens_mti_node.yaml" />
+  </node-->
+  
+  <!--(Static) transformation for relation between laser frame and base_link frame -->
+  <node pkg="tf" type="static_transform_publisher" name="base_link_to_laser" args="0.28 0.0 0.18 0.0 0.0 0.0 /base_link /laser 40" />
+
+  <node pkg="tf" type="static_transform_publisher" name="base_link_to_back_laser" args="-0.28 0.0 0.10 3.14159 0.0 0.0 /base_link /laser_back 40" /> 
+
+ <!-- IMU static transformation  -->
+  <node pkg="tf" type="static_transform_publisher" name="base_link_to_imu" args="0.08 0.124 0.115 0.0 0.0 0.0 /base_link /imu_link 40" />
+
+<!--(Static) transformation for relation between wheel odometry frame and base_link frame -->
+  <node pkg="tf" type="static_transform_publisher" name="base_link_to_wheelodom" args="-0.195 0.0 0.045 0.0 0.0 0.0 /base_link /wheelodom 40" />
+
+<!--(Static) transformation for relation between wheel odometry frame and base_link frame -->
+  <node pkg="tf" type="static_transform_publisher" name="world_to_map" args="-0.0 0.0 0.0 0.0 0.0 0.0 /world /map 40" />
+<node pkg="tf" type="static_transform_publisher" name="base_link_to_camera" args="0.0 0.0 0.0 0.0 0.0 0.0 /odom /t265_odom_frame 40" />
+
+</launch>

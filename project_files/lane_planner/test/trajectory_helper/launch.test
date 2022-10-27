@@ -1,0 +1,6 @@
+<!-- Test trajectory_helper library functions with synthetic test trajectories -->
+
+<launch>
+    <!-- Launch test -->
+    <test pkg="lane_planner" test-name="TrajectoryHelperTest" type="lane_planner_trajectory_helper_test" time-limit="10.0" />
+</launch>

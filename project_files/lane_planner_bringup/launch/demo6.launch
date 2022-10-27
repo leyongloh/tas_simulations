@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+
+<!-- Demonstration using custom environment with mpc local planner -->
+
+<launch>
+
+    <!-- Configure core demo file -->
+    <arg name="autonomous" default="true" />
+    <arg name="simulation" default="true" />
+    <arg name="use_mpc" default="true" />
+    <arg name="start_rqt" default="false" />
+
+    <!-- Initial position -->
+    <arg name="initial_position_x" default="0.0" />
+    <arg name="initial_position_y" default="23.59375" />
+    <arg name="initial_orientation_yaw" default="0.0" />
+
+    <!-- Simulation Setup -->
+    <arg name="demo_mode" default="6" />
+    <arg name="set_goal" default="true" />
+    <arg name="goal_position_x" default="60.0" />
+    <arg name="goal_position_y" default="10.0" />
+    <arg name="goal_angle" default="0.0" />
+
+
+    <!-- Load core demo file -->
+    <include file="$(find lane_planner_bringup)/launch/demo_core.launch">
+        <arg name="autonomous" value="$(arg autonomous)" />
+        <arg name="simulation" value="$(arg simulation)" />
+        <arg name="start_rqt" value="$(arg start_rqt)" />
+        <arg name="initial_position_x" value="$(arg initial_position_x)" />
+        <arg name="initial_position_y" value="$(arg initial_position_y)" />
+        <arg name="initial_orientation_yaw" default="$(arg initial_orientation_yaw)" />
+        <arg name="use_mpc" value="$(arg use_mpc)" />
+        <arg name="demo_mode" value="$(arg demo_mode)" />
+        <arg name="set_goal" value="$(arg set_goal)" />
+        <arg name="goal_position_x" value="$(arg goal_position_x)" />
+        <arg name="goal_position_y" value="$(arg goal_position_y)" />
+        <arg name="goal_angle" value="$(arg goal_angle)" />
+    </include>
+
+</launch>

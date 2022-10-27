@@ -1,0 +1,29 @@
+LaneGlobalPlanner:
+
+  # Defined trajectories
+  trajectories:
+    param: /lane_planner/trajectories
+    width: 5.0
+  
+  # Manual lane changing triggers
+  trigger_left: False
+  trigger_right: False
+
+  # Use debug or normal planner functionallity
+  debug: False
+
+  # Maneuver controller mode
+  decision_mode: 1
+
+  # Timeout after maneuver update
+  no_maneuver_timeout: 2.0
+  maneuver_timeout: 8.0
+  maneuver_timeout_trigger_update: False
+
+  # Number of interpolation steps between trajectory points
+  interpolation_steps: 50
+  interpolation_method: 1
+
+  # Method for finding closest node
+  find_node_method: 0
+  

@@ -1,0 +1,9 @@
+laser_checker:
+  lane_width: 0.93 # used to calculate the with of the zones
+  lane_offset: 0.1 # offset between front and back zones to deal with the car not driving in the middle of the lane
+  car_len: 0.56 # length of car in meter, used to configure the side zones
+  laser_len: 10 # length in m how far the front and back zones are
+  debug: False # turns on the csv export of the laser scanner measurment into a 
+
+  Curve_zones: True #Used to switch on curved field
+  Activation_threshold: 2 # ammound of points needed in each zone to be counted as occupied

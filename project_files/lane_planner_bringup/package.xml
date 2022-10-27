@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>lane_planner_bringup</name>
+  <version>0.0.0</version>
+  <description>Collection of launch files for the lane_planner project</description>
+
+  <maintainer email="johann.erhard@tum.de">Johann Erhard</maintainer>
+
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <exec_depend>lane_planner</exec_depend>
+  <exec_depend>lane_planner_environment</exec_depend>
+  <exec_depend>rviz</exec_depend>
+  <exec_depend>tas_sim</exec_depend>
+  <exec_depend>timed_roslaunch</exec_depend>
+  <exec_depend>rqt_gui</exec_depend>
+
+  <export></export>
+</package>

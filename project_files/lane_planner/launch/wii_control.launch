@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<!-- Launch modified teleop controller -->
+
+<launch>
+
+  <!-- Run teleop controller in autonomous mode by default -->
+  <arg name="autonomous" default="true" />
+
+  <!-- Run teleop controller -->
+  <node pkg="lane_planner" name="WiiControllerSim" type="WiiControllerSim.py" output="screen">
+    <param name="autonomous" value="$(arg autonomous)" />
+  </node>
+
+</launch>

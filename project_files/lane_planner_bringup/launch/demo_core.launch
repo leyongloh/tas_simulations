@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+
+<!-- Core demo file that can be modified with different arguments -->
+
+<launch>
+
+    <!-- Arguments to adapt core launch file with -->
+    <arg name="autonomous" default="true" />
+    <arg name="simulation" default="false" />
+    <arg name="use_mpc" default="true" />
+    <arg name="start_rqt" default="true" />
+
+    <!-- Initial position -->
+    <arg name="initial_position_x" default="0" />
+    <arg name="initial_position_y" default="23.59375" />
+    <arg name="initial_orientation_yaw" default="0.0" />
+
+    <!-- Simulation Setup -->
+    <arg name="demo_mode" default="0" />
+    <arg name="set_goal" default="true" />
+    <arg name="goal_position_x" default="50.0" />
+    <arg name="goal_position_y" default="50.0" />
+    <arg name="goal_angle" default="0.0" />
+
+    <!-- Load trajectoriy file -->
+    <rosparam file="$(find lane_planner_environment)/config/trajectory_points.yaml" command="load" />
+
+    <!-- Start the Gazebo simulation -->
+    <node pkg="timed_roslaunch" type="timed_roslaunch.sh" name="timed_roslaunch_1" args="0 lane_planner_environment environment.launch" output="screen" />
+
+    <!-- Load the car with its arduino emulator node and spawn it in the simulation -->
+    <node pkg="timed_roslaunch" type="timed_roslaunch.sh" name="timed_roslaunch_2" args="5 tas_sim tas_car.launch initial_position_x:=$(arg initial_position_x) initial_position_y:=$(arg initial_position_y) initial_orientation_yaw:=$(arg initial_orientation_yaw)" output="screen" />
+
+    <!--  Stage navigation launch until gazebo is up -->
+    <node pkg="timed_roslaunch" type="timed_roslaunch.sh" name="timed_roslaunch_3" args="10 lane_planner_environment navigation.launch use_mpc:=$(arg use_mpc) initial_position_x:=$(arg initial_position_x) initial_position_y:=$(arg initial_position_y) initial_orientation_yaw:=$(arg initial_orientation_yaw)" output="screen" />
+
+    <!-- Launch RVIZ for pose estimation and AMCL visualization -->
+    <node pkg="timed_roslaunch" type="timed_roslaunch.sh" name="timed_roslaunch_4" args="15 lane_planner_bringup demo_visualizer.launch use_mpc:=$(arg use_mpc) start_rqt:=$(arg start_rqt)" output="screen" />
+
+    <!-- Launch car controller in autonomous mode -->
+    <node pkg="timed_roslaunch" type="timed_roslaunch.sh" name="timed_roslaunch_5" args="20 lane_planner wii_control.launch autonomous:=$(arg autonomous)" output="screen" />
+
+    <!-- Launch Laser checker-->
+    <node pkg="timed_roslaunch" type="timed_roslaunch.sh" name="timed_roslaunch_6" args="21 lane_planner lane_planner.launch" output="screen" />
+
+    <!-- Launch simulation -->
+    <node pkg="timed_roslaunch" type="timed_roslaunch.sh" name="timed_roslaunch_7" args="25 lane_planner_environment simulation.launch demo_mode:=$(arg demo_mode) set_goal:=$(arg set_goal) goal_position_x:=$(arg goal_position_x) goal_position_y:=$(arg goal_position_y) goal_angle:=$(arg goal_angle)" output="screen" if="$(arg simulation)" />
+
+</launch>

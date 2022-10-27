@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<launch>
+
+ <!-- Load Parameter -->
+  <rosparam file="$(find lane_planner_environment)/config/obstacles_config.yaml" command="load"/>
+  <rosparam file="$(find lane_planner_environment)/config/trajectory_points.yaml" command="load"/>
+
+  <!-- Run node controller -->
+  <node pkg="lane_planner_environment" name="obstacles_generator" type="obstacles_generator.py" output="screen"/>
+
+</launch>

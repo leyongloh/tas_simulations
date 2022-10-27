@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>lane_planner</name>
+  <version>1.0.0</version>
+  <description>Core lane planner package with global lane planner and maneuver controllers</description>
+
+  <maintainer email="johann.erhard@tum.de">Johann Erhard</maintainer>
+  <maintainer email="sebastian.siegner@tum.de">Sebastian Siegner</maintainer>
+
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>angles</depend>
+  <depend>base_local_planner</depend>
+  <depend>control_msgs</depend>
+  <depend>costmap_2d</depend>
+  <depend>dynamic_reconfigure</depend>
+  <depend>geometry_msgs</depend>
+  <depend>jsk_rviz_plugins</depend>
+  <depend>message_generation</depend>
+  <depend>message_runtime</depend>
+  <depend>move_base_msgs</depend>
+  <depend>nav_core</depend>
+  <depend>pluginlib</depend>
+  <depend>ros_numpy</depend>
+  <depend>roscpp</depend>
+  <depend>rospack</depend>
+  <depend>rospy</depend>
+  <depend>std_msgs</depend>
+  <depend>tf</depend>
+
+  <test_depend>roslaunch</test_depend>
+  <test_depend>rostest</test_depend>
+
+  <export>
+    <nav_core plugin="${prefix}/lane_planner_plugin.xml" />
+  </export>
+</package>

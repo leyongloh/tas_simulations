@@ -1,0 +1,8 @@
+exercise_solution
+.vscode
+__pycache__
+data
+*.conf
+.ipynb_checkpoints
+.DS_Store
+doc

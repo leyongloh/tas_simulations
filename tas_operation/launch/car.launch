@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+
+<launch>
+  <master auto="start"/>
+  <param name="/use_sim_time" value="false"/>
+
+<include file="$(find tas_operation)/launch/hardware_16.launch"/>
+<include file="$(find tas_operation)/launch/odom.launch"/>
+<include file="$(find tas_operation)/launch/move_base.launch"/> 
+
+</launch>

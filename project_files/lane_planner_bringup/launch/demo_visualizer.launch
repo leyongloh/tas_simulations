@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<!-- Start rviz and rqt visualizer for demo configuration -->
+
+<launch>
+
+    <!-- Visualizer Configurations -->
+    <arg name="use_mpc" default="false" />
+    <arg name="start_rqt" default="true" />
+
+    <!-- Start RVIZ -->
+    <node name="rviz_demo" pkg="rviz" type="rviz" args="-d $(find lane_planner_bringup)/config/demo_mpc.rviz" if="$(arg use_mpc)" />
+    <node name="rviz_demo" pkg="rviz" type="rviz" args="-d $(find lane_planner_bringup)/config/demo_teb.rviz" unless="$(arg use_mpc)" />
+
+    <!-- Start parameter reconfiguration -->
+    <node name="rqt_param" pkg="rqt_gui" type="rqt_gui" respawn="false" output="screen" args="--perspective-file $(find lane_planner_bringup)/config/demo.perspective" if="$(arg start_rqt)" />
+
+</launch>

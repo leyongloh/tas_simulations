@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="vacuum_bot">
+
+  <!-- Include constants, configs, meshes etc. -->
+ 
+  <xacro:include filename="$(find tas_sim)/urdf/tas_car_properties.xacro"/>
+
+  <xacro:include filename="$(find tas_sim)/urdf/tas_car_macros.xacro"/>
+
+  <!-- Robot creation macro -->
+  <xacro:macro name="tas_car">
+
+  <link name="base_footprint"/>
+
+  <link name="base">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+	<mesh filename="${base_mesh}"/>
+      </geometry>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="${base_mesh}"/>
+      </geometry>
+    </collision>
+
+    <inertial>
+      <mass value="15.0"/>
+      <inertia ixx="0.0135" ixy="0.0" ixz="0.0" iyy="0.03" iyz="0.0" izz="0.433" />
+    </inertial>
+  </link>
+
+  <link name="base_link"/>
+  <joint name="base_link_base_joint" type="fixed">
+    <axis xyz="0 0 0" rpy="0 0 0"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="base"/>
+    <child link="base_link"/>
+  </joint>
+
+
+
+
+
+  <joint name="base_footprint_base_joint" type="fixed">
+    <axis xyz="0 0 1" rpy="0 0 0"/>
+    <origin xyz="0.1795 0 0" rpy="0 0 0"/>
+    <parent link="base_footprint"/>
+    <child link="base"/>
+  </joint>
+
+  <!-- nuc model -->
+  <link name="nuc_base">
+    <visual>
+      <geometry>
+        <box size="0.12 0.12 0.095"/>
+      </geometry>
+      <material name="tas_blue"/>
+    </visual>
+    
+    <collision>
+      <geometry>
+        <box size="0.12 0.12 0.095"/>
+      </geometry>
+    </collision>
+
+    <inertial>
+      <mass value="0.001"/>
+      <inertia ixx="0.00195" ixy="0.0" ixz="0.0" iyy="0.00195" iyz="0.0" izz="0.0024"/>
+    </inertial>
+  </link>
+
+  <gazebo reference="nuc_base">
+    <material>tas_blue</material>
+  </gazebo>
+
+  <joint name="base_nuc_base_joint" type="fixed">
+    <axis xyz="0 0 1" rpy="0 0 0"/>
+    <origin xyz="-0.04 0.096 0.065" rpy="0 0 0"/>
+    <parent link="base"/>
+    <child link="nuc_base"/>
+  </joint>
+
+  <link name="nuc">
+    <visual>
+      <geometry>
+        <box size="0.11 0.11 0.035"/>
+      </geometry>
+      <material name="Black"/>
+    </visual>
+
+    <collision>
+      <geometry>
+        <box size="0.11 0.11 0.035"/>
+      </geometry>
+    </collision>
+
+    <inertial>
+      <mass value="0.001"/>
+      <inertia ixx="0.0011" ixy="0.0" ixz="0.0" iyy="0.0011" iyz="0.0" izz="0.00202"/>
+    </inertial>
+  </link>
+
+  <gazebo reference="nuc">
+    <material>Gazebo/Black</material>
+  </gazebo>
+
+  <joint name="nuc_base_nuc_joint" type="fixed">
+    <origin xyz="0 0 0.065" rpy="0 0 0"/>
+    <axis xyz="0 0 1" rpy="0 0 0"/>
+    <parent link="nuc_base"/>
+    <child link="nuc"/>
+  </joint>
+
+  <!-- battery holder model -->
+  <link name="battery_holder">
+    <visual>
+      <geometry>
+        <box size="0.04 0.145 0.09"/>
+      </geometry>
+      <material name="tas_blue"/>
+    </visual>
+    <visual>
+      <origin xyz="0.06 0.0225 -0.025" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.08 0.1 0.04"/>
+      </geometry>
+      <material name="tas_blue"/>
+    </visual>
+
+    <collision>
+      <geometry>
+        <box size="0.04 0.145 0.09"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="0.06 0.0225 -0.025" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.08 0.1 0.04"/>
+      </geometry>
+    </collision>
+
+    <inertial>
+      <mass value="0.001"/>
+      <inertia ixx="0.00243" ixy="0.0" ixz="0.0" iyy="0.0008" iyz="0.0" izz="0.00189"/>
+    </inertial>
+    <inertial>
+      <mass value="0.001"/>
+      <ineria ixx="0.00097" ixy="0.0" ixz="0.0" iyy="0.0007" iyz="0.0" izz="0.00137"/>
+      <origin xyz="0.06 0.0225 -0.025" rpy="0 0 0"/>
+    </inertial>
+  </link>
+
+  <gazebo reference="battery_holder">
+    <material>tas_blue</material>
+  </gazebo>
+
+  <joint name="base_battery_holder_joint" type="fixed">
+    <axis xyz="0 0 1" rpy="0 0 0"/>
+    <origin xyz="-0.025 -0.1235 0.065" rpy="0 0 0"/>
+    <parent link="base"/>
+    <child link="battery_holder"/>
+  </joint>
+
+  <!-- battery model -->
+  <link name="battery">
+    <visual>
+      <geometry>
+        <box size="0.075 0.11 0.05"/>
+      </geometry>
+      <material name="Black"/>
+    </visual>
+
+    <collision>
+      <geometry>
+        <box size="0.075 0.11 0.05"/>
+      </geometry>
+    </collision>
+
+    <inertial>
+      <mass value="0.001"/>
+      <inertia ixx="0.00122" ixy="0.0" ixz="0.0" iyy="0.00068" iyz="0.0" izz="0.00148"/>
+    </inertial>
+  </link>
+ 
+  <gazebo reference="battery">
+    <material>Gazebo/Black</material>
+  </gazebo>
+
+  <joint name="battery_holder_battery_joint" type="fixed">
+    <origin xyz="0.06 0.01 0.02" rpy="0 0 0"/>
+    <axis xyz="0 0 1" rpy="0 0 0"/>
+    <parent link="battery_holder"/>
+    <child link="battery"/>
+  </joint>
+
+  <!-- create dummy link for ackermann drive with steering joint for the right front wheel -->
+  <link name="r_ack_link">
+    <visual>
+      <geometry>
+        <box size="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="tas_blue"/>
+    </visual>
+
+    <collision>
+      <geometry>
+        <box size="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+
+    <inertial>
+      <mass value="0.5"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+    </inertial>
+  </link>
+ 
+  <gazebo reference="r_ack_link">
+    <material>tas_blue</material>
+  </gazebo>
+
+  <joint name="r_ack_joint" type="revolute">
+    <origin xyz="0.1794 -0.19189 0.0435" rpy="0 0 0"/>
+    <axis xyz="0 0 1" rpy="0 0 0"/>
+    <parent link="base"/>
+    <child link="r_ack_link"/>
+    <limit effort="1000000" lower="-0.4" upper="0.4" velocity="0.5"/>
+  </joint>
+
+  <!-- create dummy link for ackermann drive with steering joint for the left front wheel -->
+  <link name="l_ack_link">
+    <visual>
+      <geometry>
+        <box size="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="tas_blue"/>
+    </visual>
+
+    <collision>
+      <geometry>
+        <box size="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+
+    <inertial>
+      <mass value="0.5"/>
+      <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+    </inertial>
+  </link>
+ 
+  <gazebo reference="l_ack_link">
+    <material>tas_blue</material>
+  </gazebo>
+
+  <joint name="l_ack_joint" type="revolute">
+    <origin xyz="0.1794 0.19189 0.0435" rpy="0 0 0"/>
+    <axis xyz="0 0 1" rpy="0 0 0"/>
+    <parent link="base"/>
+    <child link="l_ack_link"/>
+    <limit effort ="1000000" lower="-0.4" upper="0.4" velocity="0.5"/>
+  </joint>
+
+  <!-- create the wheels -->
+  <xacro:l_wheel name="l_f_wheel" parent="l_ack_link" joint_xyz="0 0 0" joint_rpy="${PI/2} 0 ${PI}"/>
+  <xacro:r_wheel name="r_f_wheel" parent="r_ack_link" joint_xyz="0 0 0" joint_rpy="${PI/2} 0 ${PI}"/>
+  <xacro:l_wheel name="l_b_wheel" parent="base" joint_xyz="-0.1795 0.19189 0.0435" joint_rpy="${PI/2} 0 ${PI}"/>
+  <xacro:r_wheel name="r_b_wheel" parent="base" joint_xyz="-0.1795 -0.19189 0.0435" joint_rpy="${PI/2} 0 ${PI}"/>
+
+
+  <!-- support structures for the laser scanners -->
+  <link name="laser_sup_front">
+    <visual>
+      <geometry>
+        <box size="0.06 0.06 0.07"/>
+      </geometry>
+      <material name="tas_blue"/>
+    </visual>
+
+    <collision>
+      <geometry>
+        <box size="0.06 0.06 0.07"/>
+      </geometry>
+    </collision>
+
+    <inertial>
+      <mass value="0.001"/>
+      <inertia ixx="0.00071" ixy="0.0" ixz="0.0" iyy="0.00071" iyz="0.0" izz="0.0006"/>
+    </inertial>
+  </link>
+ 
+  <gazebo reference="laser_sup_front">
+    <material>tas_blue</material>
+  </gazebo>
+
+  <joint name="base_laser_sup_front_joint" type="fixed">
+    <origin xyz="0.28 0 0.055" rpy="0 0 0"/>
+    <axis xyz="0 0 1" rpy="0 0 0"/>
+    <parent link="base"/>
+    <child link="laser_sup_front"/>
+  </joint>
+
+  <link name="laser_sup_back">
+    <visual>
+      <geometry>
+        <box size="0.053 0.053 0.06"/>
+      </geometry>
+      <material name="tas_blue"/>
+    </visual>
+
+    <collision>
+      <geometry>
+        <box size="0.053 0.053 0.06"/>
+      </geometry>
+    </collision>
+
+    <inertial>
+      <mass value="0.001"/>
+      <inertia ixx="0.000534" ixy="0.0" ixz="0.0" iyy="0.000534" iyz="0.0" izz="0.00047"/>
+    </inertial>
+  </link>
+ 
+  <gazebo reference="laser_sup_back">
+    <material>tas_blue</material>
+  </gazebo>
+
+  <joint name="base_laser_sup_back_joint" type="fixed">
+    <origin xyz="-0.28 0 0.05" rpy="0 0 0"/>
+    <axis xyz="0 0 1" rpy="0 0 0"/>
+    <parent link="base"/>
+    <child link="laser_sup_back"/>
+  </joint>
+
+  <!-- hokuyo laser scanners front and back -->
+  <xacro:sensor_hokuyo parent="base" name="laser" xyz="0.28 0.0 0.15" topic="/scan_front"/>
+  <xacro:sensor_hokuyo parent="base" name="laser_back" xyz="-0.28 0.0 0.14" rpy="0 0 ${PI}" topic="/scan_back"/>
+
+  <!-- imu sensor on the car -->
+  <xacro:sensor_imu parent="base" name="imu_link" xyz="0.08 0.124 0.115"/>
+
+
+  <!-- Passive joint state publisher plugin for Gazebo -->
+  <gazebo>
+    <plugin name="joint_state_publisher" filename="libgazebo_ros_joint_state_publisher.so">
+      <robotNamespace>tas_car</robotNamespace>
+      <jointName>l_ack_link_l_f_wheel_joint, r_ack_link_r_f_wheel_joint</jointName>
+      <updateRate>50</updateRate>
+      <alwaysOn>true</alwaysOn>
+    </plugin>
+  </gazebo>
+
+  <!-- position controllers for steering joints of the front wheels for ackermann drive model -->
+  <xacro:transmission_block joint_name="r_ack_joint" interface_type="EffortJointInterface"/>
+  <xacro:transmission_block joint_name="l_ack_joint" interface_type="EffortJointInterface"/>
+  <!-- wheel effort transmissions for the rear wheels -->
+  <xacro:transmission_block joint_name="base_r_b_wheel_joint" interface_type="EffortJointInterface"/>
+  <xacro:transmission_block joint_name="base_l_b_wheel_joint" interface_type="EffortJointInterface"/>
+
+  <xacro:ros_control_plugin ns="/tas_car"/>
+
+  </xacro:macro>
+
+  <!-- Execute the car macro to create the car -->
+  <xacro:tas_car/>
+
+</robot>

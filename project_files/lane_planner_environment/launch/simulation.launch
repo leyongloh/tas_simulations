@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<launch>
+
+  <arg name="demo_mode" default="0" />
+  <arg name="set_goal" default="false" />
+  <arg name="goal_position_x" default="50.0" />
+  <arg name="goal_position_y" default="50.0" />
+  <arg name="goal_angle" default="0.0" />
+
+  <!-- Load Parameter -->
+  <rosparam file="$(find lane_planner_environment)/config/obstacles_config.yaml" command="load" />
+
+  <!-- Launch the test node -->
+  <node pkg="lane_planner_environment" name="obstacles_generator" type="obstacles_generator.py" output="screen">
+    <param name="demo_mode" value="$(arg demo_mode)" />
+    <param name="set_goal" value="$(arg set_goal)" />
+    <param name="goal_position_x" value="$(arg goal_position_x)" />
+    <param name="goal_position_y" value="$(arg goal_position_y)" />
+    <param name="goal_angle" value="$(arg goal_angle)" />
+  </node>
+</launch>

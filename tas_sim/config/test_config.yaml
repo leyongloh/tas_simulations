@@ -1,0 +1,11 @@
+initial_pose:  # Initial pose that is set for the test in the map frame.
+  position: [-1.5,-6.2]
+  orientation: [0.0,0.0,2.65]
+
+goal_pose:  # Goal pose that is set for the test in the map frame.
+  position: [-4.79, 9.65]
+  orientation: [0.0,0.0,0.0] 
+
+trigger_position: [-6.5,3.0]  # Triggers the dynamic object movement as soon as the car enters a 1 meter radius around the position. Given in the Gazebo world frame.
+
+trajectory_speed: 0.25  # Multiplication factor for spline parameterization scaling.

@@ -1,0 +1,21 @@
+<!-- Test collection of functions with real trajectories -->
+
+<launch>
+    <!-- Load trajectories -->
+    <rosparam file="$(find lane_planner_environment)/config/trajectory_points.yaml" command="load" />
+
+    <!-- Launch test -->
+    <test pkg="lane_planner" test-name="TrajectoryEnvironmentTest" type="lane_planner_trajectory_environment_test" time-limit="10.0">
+        <!-- Load test parameters -->
+        <param name="num_trajectories" value="4" />
+        <param name="target_orientation_x" value="0.0" />
+        <param name="target_orientation_y" value="0.0" />
+        <param name="target_orientation_z" value="-0.00659652" />
+        <param name="target_orientation_w" value="0.999978" />
+        <param name="target_x" value="37.1322" />
+        <param name="target_y" value="24.5599" />
+        <param name="expected_trajectory" value="1" />
+        <param name="max_distance" value="5.0" />
+        <param name="iterations" value="1000" />
+    </test>
+</launch>

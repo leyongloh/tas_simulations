@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<!-- Launch the laser checker/filter -->
+
+<launch>
+
+  <!-- Load Parameter -->
+  <rosparam file="$(find lane_planner)/config/laser_checker_params.yaml" command="load" />
+
+  <!-- Run zone checker -->
+  <node pkg="lane_planner" name="LaserChecker" type="LaserChecker.py" output="screen" />
+
+  <!-- Run zone visualizer -->
+  <node pkg="lane_planner" name="ZoneVisualizer" type="ZoneVisualisation.py" output="screen" />
+
+</launch>
